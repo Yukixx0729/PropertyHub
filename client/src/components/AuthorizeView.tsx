@@ -1,7 +1,6 @@
-import axios, { AxiosResponse } from "axios";
 import React from "react";
 import { createContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const UserContext = createContext({});
 
@@ -12,53 +11,32 @@ interface User {
 function AuthorizeView(props: { children: React.ReactNode }) {
   const [authorized, setAuthorized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-
   let emptyuser: User = { email: "" };
-
+  const navigate = useNavigate();
   const [user, setUser] = useState(emptyuser);
 
   useEffect(() => {
-    let retryCount = 0;
-    let maxRetries = 3;
-    let delay: number = 1000;
+    const fetchWithRetry = async () => {
+      const res = await fetch("http://localhost:5031/pingauth", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+        credentials: "include",
+      });
 
-    function wait(delay: number) {
-      return new Promise((resolve) => setTimeout(resolve, delay));
-    }
-
-    async function fetchWithRetry() {
-      try {
-        const res: AxiosResponse = await axios.get(
-          "http://localhost:5031/pingauth"
-        );
-
-        if (res.status === 200) {
-          setUser({ email: res.config.data.email });
-          setAuthorized(true);
-          console.log(res);
-          return res;
-        } else if (res.status === 401) {
-          console.log(res);
-          return res;
-        } else {
-          throw new Error("" + res.status);
-        }
-      } catch (error) {
-        retryCount++;
-        if (retryCount > maxRetries) {
-          throw error;
-        } else {
-          await wait(delay);
-          return fetchWithRetry();
-        }
+      if (res.status === 200) {
+        const data = await res.json();
+        setUser({ email: data.email });
+        setAuthorized(true);
+        setLoading(false);
+      } else {
+        navigate("/log-in");
+        throw new Error("" + res.status);
       }
-    }
+    };
 
-    fetchWithRetry()
-      .catch((error) => {
-        console.log(error.message);
-      })
-      .finally(() => setLoading(false));
+    fetchWithRetry();
   }, []);
 
   if (loading) {

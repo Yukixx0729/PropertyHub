@@ -1,22 +1,26 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const LogoutLink = (props: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const hanldeSumbit = async (e: React.FormEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5031/logout", {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    fetch("http://localhost:5031/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      credentials: "include",
+    })
+      .then((data) => {
+        if (data.ok) {
+          navigate("/log-in");
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
-      if (res.status === 200) {
-        navigate("/log-in");
-      }
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (

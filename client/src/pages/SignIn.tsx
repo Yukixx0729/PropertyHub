@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,30 +16,47 @@ const SignIn = () => {
 
   const handleSumbit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[A-Z])/;
     if (!email || !password || !confirmPassward) {
       setError("Please fill in all fields.");
     } else if (password !== confirmPassward) {
       setError("Please make sure the passwards are the same.");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter a valid email address");
+    } else if (password.length < 6) {
+      setError("Password needs to at least contains 6 characters.");
+    } else if (!passwordRegex.test(password)) {
+      setError(
+        "Password must contain at least one special character and one capital letter."
+      );
     } else {
       setError("");
-      await axios
-        .post("http://localhost:5031/register", {
-          email: email,
-          password: password,
-        })
-        .then((res) => {
-          if (res.status === 200) {
+      if (!error) {
+        try {
+          const res = await fetch("http://localhost:5031/register", {
+            method: "POST",
+            body: JSON.stringify({
+              email: email,
+              password: password,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (res.ok) {
             setError("Successful sign up.");
-            navigate("/");
+            navigate("/log-in");
+          } else if (res.status === 400) {
+            console.log(res);
           } else {
-            setError("Something went wrong.");
+            const errorData = await res.json();
+            setError(errorData.message || "Something went wrong.");
           }
-        })
-        .catch((error) => {
+        } catch (error) {
           setError("Error registering.");
-        });
+        }
+      }
     }
   };
   return (

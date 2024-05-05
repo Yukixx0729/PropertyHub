@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 
 const Login = () => {
@@ -27,11 +26,17 @@ const Login = () => {
         ? (loginurl = "login?useCookies=true")
         : (loginurl = "login?useSessionCookies=true");
     }
-    await axios
-      .post(`http://localhost:5031/${loginurl}`, {
+    await fetch(`http://localhost:5031/${loginurl}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
         email: email,
         password: password,
-      })
+      }),
+      credentials: "include",
+    })
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
