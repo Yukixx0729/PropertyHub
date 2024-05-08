@@ -26,27 +26,30 @@ const Login = () => {
         ? (loginurl = "login?useCookies=true")
         : (loginurl = "login?useSessionCookies=true");
     }
-    await fetch(`http://localhost:5031/${loginurl}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-      credentials: "include",
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          setError("Successful Login.");
-          window.location.href = "/";
-        } else setError("Error Logging In.");
-      })
-      .catch((error) => {
-        setError("Error Logging in.");
+    try {
+      const res = await fetch(`http://localhost:5031/${loginurl}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+        credentials: "include",
       });
+
+      if (res.ok) {
+        setError("Successful Login.");
+        window.location.href = "/";
+      } else {
+        setError("Invalid email or password!");
+      }
+    } catch (error) {
+      setError("Error logging in.");
+    }
+    setEmail("");
+    setPassword("");
   };
   return (
     <div className="container mt-5">
@@ -96,7 +99,7 @@ const Login = () => {
               </a>
             </div>
           </form>
-          {error && <p className="error">{error}</p>}
+          {error && <p className="text-danger">{error}</p>}
         </div>
       </div>
     </div>

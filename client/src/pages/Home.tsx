@@ -6,7 +6,7 @@ const Home = () => {
     <AuthorizeView>
       <span>
         <LogoutLink>
-          Logout <AuthorizedUser value="email" />
+          <AuthorizedUser value="email" /> Logout
         </LogoutLink>
       </span>
     </AuthorizeView>

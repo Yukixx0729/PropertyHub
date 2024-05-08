@@ -16,19 +16,13 @@ const SignIn = () => {
 
   const handleSumbit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[A-Z])/;
+
     if (!email || !password || !confirmPassward) {
       setError("Please fill in all fields.");
     } else if (password !== confirmPassward) {
       setError("Please make sure the passwards are the same.");
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Please enter a valid email address");
     } else if (password.length < 6) {
       setError("Password needs to at least contains 6 characters.");
-    } else if (!passwordRegex.test(password)) {
-      setError(
-        "Password must contain at least one special character and one capital letter."
-      );
     } else {
       setError("");
       if (!error) {
@@ -43,21 +37,23 @@ const SignIn = () => {
               "Content-Type": "application/json",
             },
           });
-
           if (res.ok) {
             setError("Successful sign up.");
             navigate("/log-in");
-          } else if (res.status === 400) {
-            console.log(res);
           } else {
-            const errorData = await res.json();
-            setError(errorData.message || "Something went wrong.");
+            const data = await res.json();
+            if (data) {
+              setError(data.errors[Object.keys(data.errors)[0]][0]);
+            } else setError("Error registering.");
           }
         } catch (error) {
           setError("Error registering.");
         }
       }
     }
+    setEmail("");
+    setPassword("");
+    setConfirmPassward("");
   };
   return (
     <div className="container mt-5">
@@ -105,7 +101,7 @@ const SignIn = () => {
               </a>
             </div>
           </form>
-          {error && <p className="error">{error}</p>}
+          {error && <p className="text-danger">{error}</p>}
         </div>
       </div>
     </div>

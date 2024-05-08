@@ -32,7 +32,6 @@ function AuthorizeView(props: { children: React.ReactNode }) {
         setLoading(false);
       } else {
         navigate("/log-in");
-        throw new Error("" + res.status);
       }
     };
 
