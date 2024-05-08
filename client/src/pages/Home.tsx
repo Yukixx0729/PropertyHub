@@ -4,11 +4,9 @@ import LogoutLink from "../components/LogoutLink";
 const Home = () => {
   return (
     <AuthorizeView>
-      <span>
-        <LogoutLink>
-          <AuthorizedUser value="email" /> Logout
-        </LogoutLink>
-      </span>
+      <div className="text-end me-3">
+        <AuthorizedUser value="email" /> |<LogoutLink>Logout</LogoutLink>
+      </div>
     </AuthorizeView>
   );
 };

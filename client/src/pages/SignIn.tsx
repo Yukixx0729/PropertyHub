@@ -5,12 +5,16 @@ const SignIn = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassward, setConfirmPassward] = useState<string>("");
+  const [role, setRole] = useState<string>("tenant");
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     if (name === "email") setEmail(value);
     if (name === "password") setPassword(value);
+    if (name === "role") setRole(value);
     if (name === "confirmPassward") setConfirmPassward(value);
   };
 
@@ -25,6 +29,8 @@ const SignIn = () => {
       setError("Password needs to at least contains 6 characters.");
     } else {
       setError("");
+      let isLandlord;
+      role === "tenant" ? (isLandlord = false) : (isLandlord = true);
       if (!error) {
         try {
           const res = await fetch("http://localhost:5031/register", {
@@ -32,6 +38,7 @@ const SignIn = () => {
             body: JSON.stringify({
               email: email,
               password: password,
+              isLandlord,
             }),
             headers: {
               "Content-Type": "application/json",
@@ -82,7 +89,7 @@ const SignIn = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="mb-3">
+            <div className="mb-4">
               <label className="form-label">Confirm Password:</label>
               <input
                 type="password"
@@ -91,6 +98,18 @@ const SignIn = () => {
                 value={confirmPassward}
                 onChange={handleChange}
               />
+            </div>
+            <div className="input-group mb-3">
+              <label className="input-group-text">Role:</label>
+              <select
+                className="form-select"
+                value={role}
+                name="role"
+                onChange={handleChange}
+              >
+                <option value="tenant">tenant</option>
+                <option value="landlord">landlord</option>
+              </select>
             </div>
             <div className="mb-3">
               <button type="submit" className="btn btn-primary ">
