@@ -1,8 +1,6 @@
 using System.Security.Claims;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Server.Models;
 using Server.Models.Entities;
 
@@ -39,6 +37,29 @@ app.UseHttpsRedirection();
 app.UseCors("AllowOrigin");
 app.MapIdentityApi<ApplicationUser>();
 
+app.MapPost("/setrole", async (UserManager<ApplicationUser> userManager, string email, string role, HttpContext context) =>
+{
+    var user = await userManager.FindByEmailAsync(email);
+    if (user == null)
+    {
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+        return;
+    }
+    user.UserRole = role;
+    var result = await userManager.UpdateAsync(user);
+    if (result.Succeeded)
+    {
+        context.Response.StatusCode = StatusCodes.Status200OK;
+    }
+    else
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error updating user's role.");
+    }
+});
+
+
+
 app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
 {
     await signInManager.SignOutAsync();
@@ -59,7 +80,7 @@ app.MapGet("/pingauth", async (ClaimsPrincipal user, UserManager<ApplicationUser
             userData.Id,
             userData.UserName,
             userData.Email,
-            userData.IsLandlord,
+            userData.UserRole,
 
 
         });

@@ -15,6 +15,7 @@ const SignIn = () => {
     if (name === "email") setEmail(value);
     if (name === "password") setPassword(value);
     if (name === "role") setRole(value);
+
     if (name === "confirmPassward") setConfirmPassward(value);
   };
 
@@ -29,8 +30,7 @@ const SignIn = () => {
       setError("Password needs to at least contains 6 characters.");
     } else {
       setError("");
-      let isLandlord;
-      role === "tenant" ? (isLandlord = false) : (isLandlord = true);
+
       if (!error) {
         try {
           const res = await fetch("http://localhost:5031/register", {
@@ -38,15 +38,25 @@ const SignIn = () => {
             body: JSON.stringify({
               email: email,
               password: password,
-              isLandlord,
             }),
             headers: {
               "Content-Type": "application/json",
             },
           });
           if (res.ok) {
-            setError("Successful sign up.");
-            navigate("/log-in");
+            const response = await fetch(
+              `http://localhost:5031/setrole?email=${email}&role=${role}`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            if (response.ok) {
+              setError("Successful sign up.");
+              navigate("/log-in");
+            }
           } else {
             const data = await res.json();
             if (data) {
@@ -63,67 +73,75 @@ const SignIn = () => {
     setConfirmPassward("");
   };
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center align-items-center">
-        <div className="col-sm-12 col-md-12 col-lg-4">
-          <h1 className="mb-3">Sign In</h1>
-          <form onSubmit={handleSumbit}>
-            {" "}
-            <div className="mb-3">
-              <label className="form-label">Email:</label>
-              <input
-                type="email"
-                name="email"
-                className="form-control"
-                value={email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Password:</label>
-              <input
-                type="password"
-                name="password"
-                className="form-control"
-                value={password}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="form-label">Confirm Password:</label>
-              <input
-                type="password"
-                className="form-control"
-                name="confirmPassward"
-                value={confirmPassward}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="input-group mb-3">
-              <label className="input-group-text">Role:</label>
-              <select
-                className="form-select"
-                value={role}
-                name="role"
-                onChange={handleChange}
-              >
-                <option value="tenant">tenant</option>
-                <option value="landlord">landlord</option>
-              </select>
-            </div>
-            <div className="mb-3">
-              <button type="submit" className="btn btn-primary ">
-                Sign in
-              </button>
-              <a href="/log-in" className="btn btn-secondary mx-3">
-                Log in
-              </a>
-            </div>
-          </form>
-          {error && <p className="text-danger">{error}</p>}
+    <>
+      <div className="d-flex alert-success py-3 px-3 align-items-center justify-content-between">
+        {" "}
+        <a className="ps-3 p-2 " href="/">
+          <h2>Property Hub</h2>
+        </a>
+      </div>
+      <div className="container mt-5">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-sm-12 col-md-12 col-lg-4">
+            <h1 className="mb-3">Sign In</h1>
+            <form onSubmit={handleSumbit}>
+              {" "}
+              <div className="mb-3">
+                <label className="form-label">Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  value={email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Password:</label>
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  value={password}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="form-label">Confirm Password:</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  name="confirmPassward"
+                  value={confirmPassward}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="input-group mb-3">
+                <label className="input-group-text">Role:</label>
+                <select
+                  className="form-select"
+                  value={role}
+                  name="role"
+                  onChange={handleChange}
+                >
+                  <option value="tenant">tenant</option>
+                  <option value="landlord">landlord</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <button type="submit" className="btn btn-primary ">
+                  Sign in
+                </button>
+                <a href="/log-in" className="btn btn-secondary mx-3">
+                  Log in
+                </a>
+              </div>
+            </form>
+            {error && <p className="text-danger">{error}</p>}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

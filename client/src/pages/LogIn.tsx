@@ -52,57 +52,65 @@ const Login = () => {
     setPassword("");
   };
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center align-items-center">
-        <div className="col-sm-12 col-md-12 col-lg-4">
-          <h1 className="mb-3">Log In</h1>
-          <form onSubmit={handleSubmit}>
-            {" "}
-            <div className="mb-3">
-              <label className="form-label">Email:</label>
-              <input
-                type="email"
-                name="email"
-                className="form-control"
-                value={email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Password:</label>
-              <input
-                type="password"
-                name="password"
-                className="form-control"
-                value={password}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3 form-check">
-              <input
-                type="checkbox"
-                name="rememberme"
-                className="fom-check-input"
-                checked={rememberme}
-                onChange={handleChange}
-              />
-              <label className="form-check-label mx-1 text-secondary">
-                Remember Me?
-              </label>
-            </div>
-            <div className="mb-3">
-              <button type="submit" className="btn btn-primary ">
-                Log in
-              </button>
-              <a href="/sign-in" className="btn btn-secondary mx-3">
-                Sign in
-              </a>
-            </div>
-          </form>
-          {error && <p className="text-danger">{error}</p>}
+    <>
+      <div className="d-flex alert-success py-3 px-3 align-items-center justify-content-between">
+        {" "}
+        <a className="ps-3 p-2 " href="/">
+          <h2>Property Hub</h2>
+        </a>
+      </div>
+      <div className="container mt-5">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-sm-12 col-md-12 col-lg-4">
+            <h1 className="mb-3">Log In</h1>
+            <form onSubmit={handleSubmit}>
+              {" "}
+              <div className="mb-3">
+                <label className="form-label">Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  value={email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Password:</label>
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  value={password}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  name="rememberme"
+                  className="fom-check-input"
+                  checked={rememberme}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label mx-1 text-secondary">
+                  Remember Me?
+                </label>
+              </div>
+              <div className="mb-3">
+                <button type="submit" className="btn btn-primary ">
+                  Log in
+                </button>
+                <a href="/sign-in" className="btn btn-secondary mx-3">
+                  Sign in
+                </a>
+              </div>
+            </form>
+            {error && <p className="text-danger">{error}</p>}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

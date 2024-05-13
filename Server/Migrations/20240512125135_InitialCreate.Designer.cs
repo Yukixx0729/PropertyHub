@@ -12,7 +12,7 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240501094423_InitialCreate")]
+    [Migration("20240512125135_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -177,9 +177,6 @@ namespace Server.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsLandlord")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -212,6 +209,9 @@ namespace Server.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("UserRole")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

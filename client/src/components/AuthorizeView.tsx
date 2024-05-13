@@ -1,6 +1,7 @@
 import React from "react";
 import { createContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import LogoutLink from "./LogoutLink";
 
 const UserContext = createContext({});
 
@@ -30,8 +31,6 @@ function AuthorizeView(props: { children: React.ReactNode }) {
         setUser({ email: data.email });
         setAuthorized(true);
         setLoading(false);
-      } else {
-        navigate("/log-in");
       }
     };
 
@@ -40,9 +39,9 @@ function AuthorizeView(props: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <>
-        <p>loading....</p>
-      </>
+      <div>
+        <a href="/log-in">Log in</a> | <a href="/sign-in">Sign up</a>
+      </div>
     );
   } else {
     if (authorized && !loading) {
@@ -67,7 +66,12 @@ export function AuthorizedUser(props: { value: string }) {
   const user: any = React.useContext(UserContext);
 
   if (props.value == "email") return <>{user.email}</>;
-  else return <></>;
+  else
+    return (
+      <div>
+        <a href="/log-in">Log in</a> | <a href="/sign-in">Sign up</a>
+      </div>
+    );
 }
 
 export default AuthorizeView;
