@@ -1,23 +1,23 @@
 import React from "react";
 import { createContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import LogoutLink from "./LogoutLink";
 
 const UserContext = createContext({});
 
 interface User {
   email: string;
+  userRole: string;
+  id: string;
 }
 
 function AuthorizeView(props: { children: React.ReactNode }) {
   const [authorized, setAuthorized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  let emptyuser: User = { email: "" };
-  const navigate = useNavigate();
+  let emptyuser: User = { email: "", userRole: "", id: "" };
   const [user, setUser] = useState(emptyuser);
 
   useEffect(() => {
-    const fetchWithRetry = async () => {
+    const fetchUser = async () => {
       const res = await fetch("http://localhost:5031/pingauth", {
         headers: {
           "Content-Type": "application/json",
@@ -28,13 +28,14 @@ function AuthorizeView(props: { children: React.ReactNode }) {
 
       if (res.status === 200) {
         const data = await res.json();
-        setUser({ email: data.email });
+        console.log(data);
+        setUser({ email: data.email, userRole: data.userRole, id: data.id });
         setAuthorized(true);
         setLoading(false);
       }
     };
 
-    fetchWithRetry();
+    fetchUser();
   }, []);
 
   if (loading) {
