@@ -41,6 +41,7 @@ const Login = () => {
 
       if (res.ok) {
         setError("Successful Login.");
+
         window.location.href = "/";
       } else {
         setError("Invalid email or password!");
@@ -101,8 +102,8 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary ">
                   Log in
                 </button>
-                <a href="/sign-in" className="btn btn-secondary mx-3">
-                  Sign in
+                <a href="/sign-up" className="btn btn-secondary mx-3">
+                  Sign up
                 </a>
               </div>
             </form>

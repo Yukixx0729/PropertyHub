@@ -1,0 +1,1 @@
+dotnet aspnet-codegenerator controller -name PropertiesController -async -api -m Properties -dc ApplicationDbContext -outDir Controllers

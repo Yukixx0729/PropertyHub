@@ -1,64 +1,62 @@
 import { useEffect, useState } from "react";
-import AuthorizeView, { AuthorizedUser } from "./AuthorizeView";
+import UserProvider, { useUser } from "./AuthorizeView";
 import LogoutLink from "./LogoutLink";
 
-interface User {
-  id: string;
-  email: string;
-  userRole: string;
-}
+// interface User {
+//   id: string;
+//   email: string;
+//   userRole: string;
+// }
+
+const RoleLink = ({ role }: { role: string }) => {
+  const roleMap = {
+    tenant: {
+      link: "/mysaved",
+      text: "My Saved",
+    },
+    landlord: {
+      link: "/myproperty",
+      text: "My Property",
+    },
+  } as Record<string, any>;
+
+  if (!role || !roleMap[role]) return;
+
+  return (
+    <a className="ps-3 p-2 " href={roleMap[role].link}>
+      <h3 className="mb-0">{roleMap[role].text}</h3>
+    </a>
+  );
+};
 
 const NavBar = () => {
-  let loginUser: User = { id: "", email: "", userRole: "" };
-  const [user, setUser] = useState<User>(loginUser);
+  const user = useUser();
+  const { email, userRole, id } = user.details ?? {};
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await fetch("http://localhost:5031/pingauth", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-        credentials: "include",
-      });
+  if (!user) {
+    console.log("No user");
+  }
 
-      if (res.status === 200) {
-        const data = await res.json();
-
-        setUser({ email: data.email, userRole: data.userRole, id: data.id });
-      }
-    };
-    fetchUser();
-  }, []);
   return (
     <div className="d-flex alert-success py-3 px-3 align-items-center justify-content-between">
       {" "}
       <a className="ps-3 p-2 " href="/">
         <h2>Property Hub</h2>
       </a>
-      {user.userRole === "tenant" ? (
+      {email && (
         <>
-          <a className="ps-3 p-2 " href="/mysaved">
-            <h3 className="mb-0">My Saved</h3>
-          </a>
-        </>
-      ) : (
-        <>
-          {user.userRole === "landlord" ? (
-            <>
-              {" "}
-              <a className="ps-3 p-2 " href="/myproperty">
-                <h3 className="mb-0">My Property</h3>
-              </a>
-            </>
-          ) : null}
+          <RoleLink role={userRole} />
+          <div className=" me-3 ms-auto p-2">
+            <span>{email}</span>
+            <LogoutLink> Logout</LogoutLink>
+          </div>
         </>
       )}
-      <AuthorizeView>
-        <div className=" me-3 ms-auto p-2">
-          <AuthorizedUser value="email" />|<LogoutLink>Logout</LogoutLink>
+      {!email && (
+        <div>
+          <a href="/log-in">Log in</a> | <a href="/sign-up">Sign up</a>
         </div>
-      </AuthorizeView>
+      )}
     </div>
   );
 };
