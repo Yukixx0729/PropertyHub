@@ -1,12 +1,5 @@
-import { useEffect, useState } from "react";
-import UserProvider, { useUser } from "./AuthorizeView";
+import { useUser } from "./AuthorizeView";
 import LogoutLink from "./LogoutLink";
-
-// interface User {
-//   id: string;
-//   email: string;
-//   userRole: string;
-// }
 
 const RoleLink = ({ role }: { role: string }) => {
   const roleMap = {
@@ -43,7 +36,7 @@ const NavBar = () => {
       <a className="ps-3 p-2 " href="/">
         <h2>Property Hub</h2>
       </a>
-      {email && (
+      {user.authorized && (
         <>
           <RoleLink role={userRole} />
           <div className=" me-3 ms-auto p-2">
@@ -52,9 +45,14 @@ const NavBar = () => {
           </div>
         </>
       )}
-      {!email && (
+      {!user.authorized && (
         <div>
-          <a href="/log-in">Log in</a> | <a href="/sign-up">Sign up</a>
+          <a href="/log-in" className="btn btn-light">
+            Log in
+          </a>{" "}
+          <a href="/sign-up" className="btn btn-primary">
+            Sign up
+          </a>
         </div>
       )}
     </div>

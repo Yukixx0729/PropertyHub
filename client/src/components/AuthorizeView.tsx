@@ -1,6 +1,5 @@
 import React from "react";
-import { createContext, useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { createContext, useState } from "react";
 
 type User = {
   email: string;
@@ -19,13 +18,14 @@ const UserContext = createContext<TUserContext | null>(null);
 
 function UserProvider({ children }: { children: React.ReactNode }) {
   const [authorized, setAuthorized] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   let emptyUser: User = { email: "", userRole: "", id: "" };
   const [details, setDetails] = useState(emptyUser);
 
   const fetchUser = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch("http://localhost:5031/pingauth", {
         headers: { "Content-Type": "application/json" },
         method: "GET",
@@ -37,9 +37,12 @@ function UserProvider({ children }: { children: React.ReactNode }) {
 
       console.log(data);
 
-      setDetails({ email: data.email, userRole: data.userRole, id: data.id });
+      setDetails({
+        email: data.email,
+        userRole: data.userRole,
+        id: data.id,
+      });
       setAuthorized(true);
-      setIsLoading(false);
     } catch (e) {
       console.warn(e);
     } finally {

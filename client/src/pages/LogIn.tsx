@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUser } from "../components/AuthorizeView";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberme, setRememberme] = useState<boolean>(false);
-
+  const user = useUser();
   const [error, setError] = useState<string>("");
+
+  // useEffect(() => {
+  //   console.log(user.details.email);
+  //   if (user.details.email) {
+  //     window.location.href = "/";
+  //   }
+  // }, [user.details.email]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,7 +49,8 @@ const Login = () => {
 
       if (res.ok) {
         setError("Successful Login.");
-
+        await user.fetchUser();
+        localStorage.setItem("login", "true");
         window.location.href = "/";
       } else {
         setError("Invalid email or password!");

@@ -28,10 +28,6 @@ const Home = () => {
 
   const user = useUser();
 
-  useEffect(() => {
-    user.fetchUser();
-  }, []);
-
   if (user.isLoading) {
     return <div>Loading...</div>;
   }

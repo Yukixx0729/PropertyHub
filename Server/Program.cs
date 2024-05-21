@@ -16,6 +16,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddApiEndpoints();
 builder.Services.AddControllers();
 
+
+
 builder.Services.AddCors(options =>
        {
            options.AddPolicy("AllowOrigin",
@@ -94,6 +96,7 @@ app.MapGet("/pingauth", async (ClaimsPrincipal user, UserManager<ApplicationUser
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
 

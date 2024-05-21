@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
@@ -19,16 +14,17 @@ namespace Server.Controllers
         public PropertiesController(ApplicationDbContext context)
         {
             _context = context;
+
         }
 
-        // GET: api/Properties
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
         {
             return await _context.Properties.ToListAsync();
         }
 
-        // GET: api/Properties/5
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Property>> GetProperty(Guid id)
         {
@@ -42,17 +38,38 @@ namespace Server.Controllers
             return @property;
         }
 
-        // PUT: api/Properties/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProperty(Guid id, Property @property)
+        public async Task<IActionResult> PutProperty(Guid id, NewProperty property)
         {
-            if (id != @property.Id)
+            var landlord = await _context.Users.FirstOrDefaultAsync(u => u.Id == property.LandlordId);
+
+            if (id != @property.Id || landlord is null)
             {
                 return BadRequest();
             }
+            var newproperty = new Property
+            {
+                Id = property.Id,
+                Address = property.Address,
+                Postcode = property.Postcode,
+                Rent = property.Rent,
+                Bedroom = property.Bedroom,
+                CarSpot = property.CarSpot,
+                Availability = property.Availability,
+                IsVacant = property.IsVacant,
+                Heater = property.Heater,
+                Cooler = property.Cooler,
+                IsPetAllowed = property.IsPetAllowed,
+                Wardrobes = property.Wardrobes,
+                Summary = property.Summary,
+                CreatedAt = property.CreatedAt,
+                LandlordId = landlord.Id,
+                ApplicationUser = landlord
 
-            _context.Entry(@property).State = EntityState.Modified;
+            };
+
+            _context.Entry(newproperty).State = EntityState.Modified;
 
             try
             {
@@ -73,19 +90,43 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Properties
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Property>> PostProperty(Property @property)
+        public async Task<ActionResult<Property>> PostProperty(NewProperty property)
         {
-            var landlord = await _context.Users.FindAsync(property);
-            _context.Properties.Add(@property);
-            await _context.SaveChangesAsync();
+            var landlord = await _context.Users.FirstOrDefaultAsync(u => u.Id == property.LandlordId);
 
-            return CreatedAtAction("GetProperty", new { id = @property.Id }, @property);
+            if (landlord != null)
+            {
+                var newproperty = new Property
+                {
+                    Id = property.Id,
+                    Address = property.Address,
+                    Postcode = property.Postcode,
+                    Rent = property.Rent,
+                    Bedroom = property.Bedroom,
+                    CarSpot = property.CarSpot,
+                    Availability = property.Availability,
+                    IsVacant = property.IsVacant,
+                    Heater = property.Heater,
+                    Cooler = property.Cooler,
+                    IsPetAllowed = property.IsPetAllowed,
+                    Wardrobes = property.Wardrobes,
+                    Summary = property.Summary,
+                    CreatedAt = property.CreatedAt,
+                    LandlordId = landlord.Id,
+                    ApplicationUser = landlord
+
+                };
+                _context.Properties.Add(newproperty);
+
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetProperty", new { id = property.Id }, property);
+            }
+            return NotFound();
         }
 
-        // DELETE: api/Properties/5
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProperty(Guid id)
         {

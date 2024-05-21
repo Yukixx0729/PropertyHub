@@ -14,6 +14,7 @@ const LogoutLink = (props: { children: React.ReactNode }) => {
     })
       .then((data) => {
         if (data.ok) {
+          localStorage.removeItem("login");
           navigate("/log-in");
         } else {
         }
