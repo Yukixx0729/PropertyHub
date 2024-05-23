@@ -7,23 +7,3 @@
 body {
   font-family: "PT Sans", sans-serif;
 }
-h2 {
-  font-family: "Rubik", sans-serif;
-  margin: 0;
-}
-
-.alert-success {
-  background-color: var(--success-color);
-  border-color: var(--success-color);
-  color: #171817;
-}
-
-.alert-success a {
-  text-decoration: none;
-  color: #171817;
-}
-
-.alert-success a:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}

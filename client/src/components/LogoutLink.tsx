@@ -26,7 +26,7 @@ const LogoutLink = (props: { children: React.ReactNode }) => {
 
   return (
     <span>
-      <a href="#" onClick={hanldeSumbit} className="btn btn-primary mx-2">
+      <a href="#" onClick={hanldeSumbit} className="btn btn-secondary mx-2">
         {props.children}
       </a>
     </span>

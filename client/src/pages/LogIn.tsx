@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from "../components/AuthorizeView";
 
 const Login = () => {
@@ -7,13 +7,6 @@ const Login = () => {
   const [rememberme, setRememberme] = useState<boolean>(false);
   const user = useUser();
   const [error, setError] = useState<string>("");
-
-  // useEffect(() => {
-  //   console.log(user.details.email);
-  //   if (user.details.email) {
-  //     window.location.href = "/";
-  //   }
-  // }, [user.details.email]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

@@ -5,8 +5,9 @@ import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import SignUp from "./pages/SignUp";
 import { useUser } from "./components/AuthorizeView";
-import { useEffect, useState } from "react";
-import MySaved from "./components/MySaved";
+import { useEffect } from "react";
+import MySaved from "./components/Saved/MySaved";
+import MyProperty from "./components/Property/MyProperty";
 
 function App() {
   const location = useLocation();
@@ -29,6 +30,7 @@ function App() {
         <Route path="/log-in" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/mysaved" element={<MySaved />} />
+        <Route path="/myproperty" element={<MyProperty />} />
       </Routes>
     </>
   );

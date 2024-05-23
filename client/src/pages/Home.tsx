@@ -33,12 +33,18 @@ const Home = () => {
   }
 
   return (
-    <div className="container position-absolute top-50 d-flex justify-content-center">
-      <form>
-        <input placeholder="Key in the postcode.." className="me-2"></input>
-        <button className="me-2 btn btn-secondary">Filters</button>
-        <button className="btn btn-primary">Search</button>
-      </form>
+    <div className="home d-flex justify-content-center align-items-center">
+      <div className="px-4 py-3 bg-white rounded">
+        {" "}
+        <form className="d-flex justify-content-around">
+          <input
+            placeholder="Key in the postcode.."
+            className="form-control me-2"
+          ></input>
+          <button className=" btn btn-secondary me-2">Filters</button>
+          <button className="btn btn-danger">Search</button>
+        </form>
+      </div>
     </div>
   );
 };
