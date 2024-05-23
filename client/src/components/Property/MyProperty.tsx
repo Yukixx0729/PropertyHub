@@ -8,7 +8,9 @@ type Property = {
   rent: number;
   bedroom: number;
   carSpot: number;
-  availability: Date;
+  availability: string;
+  bathroom: number;
+  summary: string;
 };
 
 type Properties = Property[];
@@ -40,8 +42,17 @@ const MyProperty = () => {
 
   return (
     <div>
+      <div className="mx-5 mt-3  d-flex justify-content-center align-items-center">
+        <h2 className="p-2 me-3">My Property</h2>
+        <span className="p-2 ">
+          {" "}
+          <a className="btn btn-primary">Add a new property</a>
+        </span>
+      </div>
       {isLoading && <p>...loading</p>}
+
       {properties &&
+        properties.length > 0 &&
         properties.map((property) => {
           return (
             <div key={property.id} className="card d-flex flex-row mx-5 my-4">
@@ -54,11 +65,31 @@ const MyProperty = () => {
                 <h5 className="card-title  text-danger">
                   ${property.rent} per week
                 </h5>
-                <p className="card-text">{property.address}</p>
-                <p className="card-text">
+
+                <div className="card-text mt-4">
+                  {property.address}, {property.postcode}
+                </div>
+                <div className="card-text ">
+                  Available Date: {property.availability.slice(0, 10)}
+                </div>
+                <div className="card-text">
                   {" "}
-                  {property.bedroom} bedroom(s) , {property.carSpot} carspot(s)
-                </p>
+                  {property.bedroom} bedroom(s) ,{property.bathroom}{" "}
+                  bathroom(s), {property.carSpot} carspot(s)
+                </div>
+
+                <div className="d-flex  justify-content-center align-items-center mt-4">
+                  <a href="#" className="card-link me-3">
+                    Marked as rented
+                  </a>
+                  <a href="#" className="card-link me-3">
+                    Edit
+                  </a>
+
+                  <a href="#" className="card-link me-3 text-danger">
+                    Delete
+                  </a>
+                </div>
               </div>
             </div>
           );

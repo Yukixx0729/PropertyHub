@@ -166,6 +166,7 @@ namespace Server.Migrations
                     Postcode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rent = table.Column<int>(type: "int", nullable: false),
                     Bedroom = table.Column<int>(type: "int", nullable: false),
+                    Bathroom = table.Column<int>(type: "int", nullable: false),
                     CarSpot = table.Column<int>(type: "int", nullable: false),
                     Availability = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsVacant = table.Column<bool>(type: "bit", nullable: false),

@@ -38,6 +38,19 @@ namespace Server.Controllers
             return @property;
         }
 
+        [HttpGet("/landlord/{landlordId}")]
+        public async Task<ActionResult<IEnumerable<Property>>> GetPropertyByLandlord(string landlordId)
+        {
+            var properties = await _context.Properties.Where(p => p.LandlordId == landlordId)
+                .ToListAsync();
+            if (properties == null || properties.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return properties;
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProperty(Guid id, NewProperty property)
@@ -65,7 +78,8 @@ namespace Server.Controllers
                 Summary = property.Summary,
                 CreatedAt = property.CreatedAt,
                 LandlordId = landlord.Id,
-                ApplicationUser = landlord
+                ApplicationUser = landlord,
+                Bathroom = property.Bathroom
 
             };
 
@@ -114,7 +128,8 @@ namespace Server.Controllers
                     Summary = property.Summary,
                     CreatedAt = property.CreatedAt,
                     LandlordId = landlord.Id,
-                    ApplicationUser = landlord
+                    ApplicationUser = landlord,
+                    Bathroom = property.Bathroom
 
                 };
                 _context.Properties.Add(newproperty);

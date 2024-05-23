@@ -30,6 +30,8 @@ namespace Server.Models
         [MaxLength(1000)]
         public required string Summary { get; set; }
 
+        public required int Bathroom { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public required string LandlordId { get; set; }

@@ -15,6 +15,8 @@ namespace Server.Models.Entities
 
         public required int Bedroom { get; set; }
 
+        public required int Bathroom { get; set; }
+
         public required int CarSpot { get; set; }
 
         public DateTime Availability { get; set; }

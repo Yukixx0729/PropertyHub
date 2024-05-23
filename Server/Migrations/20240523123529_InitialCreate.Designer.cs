@@ -12,7 +12,7 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240512125135_InitialCreate")]
+    [Migration("20240523123529_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -266,6 +266,9 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("Availability")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Bathroom")
+                        .HasColumnType("int");
 
                     b.Property<int>("Bedroom")
                         .HasColumnType("int");
