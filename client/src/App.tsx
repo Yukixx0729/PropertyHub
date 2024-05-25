@@ -8,6 +8,7 @@ import { useUser } from "./components/AuthorizeView";
 import { useEffect } from "react";
 import MySaved from "./components/Saved/MySaved";
 import MyProperty from "./components/Property/MyProperty";
+import AddProperty from "./components/Property/AddProperty";
 
 function App() {
   const location = useLocation();
@@ -31,6 +32,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/mysaved" element={<MySaved />} />
         <Route path="/myproperty" element={<MyProperty />} />
+        <Route path="/addproperty" element={<AddProperty />} />
+        <Route path="/editproperty/:propertyId" element={<AddProperty />} />
       </Routes>
     </>
   );

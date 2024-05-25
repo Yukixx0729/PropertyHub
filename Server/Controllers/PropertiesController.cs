@@ -76,7 +76,7 @@ namespace Server.Controllers
                 IsPetAllowed = property.IsPetAllowed,
                 Wardrobes = property.Wardrobes,
                 Summary = property.Summary,
-                CreatedAt = property.CreatedAt,
+
                 LandlordId = landlord.Id,
                 ApplicationUser = landlord,
                 Bathroom = property.Bathroom
@@ -126,7 +126,6 @@ namespace Server.Controllers
                     IsPetAllowed = property.IsPetAllowed,
                     Wardrobes = property.Wardrobes,
                     Summary = property.Summary,
-                    CreatedAt = property.CreatedAt,
                     LandlordId = landlord.Id,
                     ApplicationUser = landlord,
                     Bathroom = property.Bathroom

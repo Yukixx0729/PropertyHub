@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../AuthorizeView";
+import { Link } from "react-router-dom";
 
 type Property = {
   id: string;
@@ -11,6 +12,11 @@ type Property = {
   availability: string;
   bathroom: number;
   summary: string;
+  isVacant: boolean;
+  heater: boolean;
+  cooler: boolean;
+  isPetAllowed: boolean;
+  applicationUser: any;
 };
 
 type Properties = Property[];
@@ -21,22 +27,49 @@ const MyProperty = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [properties, setProperties] = useState<Properties | null>(null);
 
-  useEffect(() => {
-    const fetchProperties = async () => {
-      setIsLoading(true);
-      try {
-        if (id) {
-          const res = await fetch(`http://localhost:5031/landlord/${id}`);
-          const data = await res.json();
-          console.log(data);
-          setProperties(data);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
+  const onClickDelete = async (id: string) => {
+    await fetch(`http://localhost:5031/api/Properties/${id}`, {
+      method: "DELETE",
+    });
+
+    await fetchProperties();
+  };
+
+  const onClickChangeStatus = async (propertyId: string) => {
+    const property = properties?.filter((p) => p.id === propertyId);
+    if (property && property.length > 0) {
+      const { applicationUser, ...newProperty } = property[0];
+      const updatedProperty = {
+        ...newProperty,
+        isVacant: !property[0].isVacant,
+      };
+      await fetch(`http://localhost:5031/api/Properties/${propertyId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProperty),
+      });
+      await fetchProperties();
+    }
+  };
+
+  const fetchProperties = async () => {
+    setIsLoading(true);
+    try {
+      if (id) {
+        const res = await fetch(`http://localhost:5031/landlord/${id}`);
+        const data = await res.json();
+        setProperties(data);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProperties();
   }, [id]);
 
@@ -46,7 +79,9 @@ const MyProperty = () => {
         <h2 className="p-2 me-3">My Property</h2>
         <span className="p-2 ">
           {" "}
-          <a className="btn btn-primary">Add a new property</a>
+          <Link to={"/addproperty"} className="btn btn-primary">
+            Add a new property
+          </Link>
         </span>
       </div>
       {isLoading && <p>...loading</p>}
@@ -62,33 +97,47 @@ const MyProperty = () => {
                 className="img-fluid property-img"
               />
               <div className="card-body text-center">
-                <h5 className="card-title  text-danger">
+                <h5 className="card-title  text-danger mt-2">
                   ${property.rent} per week
                 </h5>
 
-                <div className="card-text mt-4">
+                <div className="card-text mt-4 mb-2">
                   {property.address}, {property.postcode}
                 </div>
-                <div className="card-text ">
+                <div className="card-text mb-2 ">
                   Available Date: {property.availability.slice(0, 10)}
                 </div>
-                <div className="card-text">
+                <div className="card-text mb-2">
                   {" "}
-                  {property.bedroom} bedroom(s) ,{property.bathroom}{" "}
+                  {property.bedroom} bedroom(s), {property.bathroom}{" "}
                   bathroom(s), {property.carSpot} carspot(s)
                 </div>
 
                 <div className="d-flex  justify-content-center align-items-center mt-4">
-                  <a href="#" className="card-link me-3">
-                    Marked as rented
-                  </a>
-                  <a href="#" className="card-link me-3">
-                    Edit
-                  </a>
+                  <button
+                    className="me-3 rounded p-1 px-3 btn btn-primary"
+                    onClick={() => onClickChangeStatus(property.id)}
+                  >
+                    {property.isVacant
+                      ? "Marked as rented"
+                      : "Marked as available"}
+                  </button>
 
-                  <a href="#" className="card-link me-3 text-danger">
+                  <button className=" me-3 p-1 px-3 rounded btn btn-primary ">
+                    <Link
+                      to={`/editproperty/${property.id}`}
+                      className="text-light link-underline link-underline-opacity-0"
+                    >
+                      Edit
+                    </Link>
+                  </button>
+
+                  <button
+                    className=" me-3  rounded p-1 px-3 btn btn-danger"
+                    onClick={() => onClickDelete(property.id)}
+                  >
                     Delete
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

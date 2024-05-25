@@ -32,7 +32,6 @@ namespace Server.Models
 
         public required int Bathroom { get; set; }
 
-        public DateTime CreatedAt { get; set; }
 
         public required string LandlordId { get; set; }
     }

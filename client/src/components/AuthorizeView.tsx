@@ -35,7 +35,7 @@ function UserProvider({ children }: { children: React.ReactNode }) {
       if (res.status !== 200) return;
       const data = await res.json();
 
-      console.log(data);
+      // console.log(data);
 
       setDetails({
         email: data.email,
@@ -56,18 +56,6 @@ function UserProvider({ children }: { children: React.ReactNode }) {
     </UserContext.Provider>
   );
 }
-
-// export function useUser(props: { value: string }) {
-//   const user: any = React.useContext(UserContext);
-
-//   if (props.value == "email") return <>{user.email}</>;
-//   else
-//     return (
-//       <div>
-//         <a href="/log-in">Log in</a> | <a href="/sign-in">Sign up</a>
-//       </div>
-//     );
-// }
 
 export function useUser() {
   const context = React.useContext(UserContext);
