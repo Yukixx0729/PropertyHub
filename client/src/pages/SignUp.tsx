@@ -15,7 +15,6 @@ const SignUp = () => {
     if (name === "email") setEmail(value);
     if (name === "password") setPassword(value);
     if (name === "role") setRole(value);
-
     if (name === "confirmPassward") setConfirmPassward(value);
   };
 

@@ -128,7 +128,8 @@ namespace Server.Controllers
                     Summary = property.Summary,
                     LandlordId = landlord.Id,
                     ApplicationUser = landlord,
-                    Bathroom = property.Bathroom
+                    Bathroom = property.Bathroom,
+                    CreatedAt = DateTime.Now
 
                 };
                 _context.Properties.Add(newproperty);

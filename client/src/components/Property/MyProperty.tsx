@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../AuthorizeView";
 import { Link } from "react-router-dom";
 
-type Property = {
+export type Property = {
   id: string;
   address: string;
   postcode: string;
@@ -17,6 +17,8 @@ type Property = {
   cooler: boolean;
   isPetAllowed: boolean;
   applicationUser: any;
+  wardrobes: boolean;
+  landlordId: string;
 };
 
 type Properties = Property[];

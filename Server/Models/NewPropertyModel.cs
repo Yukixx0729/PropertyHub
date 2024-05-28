@@ -34,5 +34,6 @@ namespace Server.Models
 
 
         public required string LandlordId { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
