@@ -10,6 +10,7 @@ import MySaved from "./components/Saved/MySaved";
 import MyProperty from "./components/Property/MyProperty";
 import AddProperty from "./components/Property/AddProperty";
 import EditProperty from "./components/Property/EditProperty";
+import PropertyDetails from "./components/Property/PropertyDetails";
 
 function App() {
   const location = useLocation();
@@ -35,6 +36,7 @@ function App() {
         <Route path="/myproperty" element={<MyProperty />} />
         <Route path="/addproperty" element={<AddProperty />} />
         <Route path="/editproperty/:propertyId" element={<EditProperty />} />
+        <Route path="/property/:propertyId" element={<PropertyDetails />} />
       </Routes>
     </>
   );

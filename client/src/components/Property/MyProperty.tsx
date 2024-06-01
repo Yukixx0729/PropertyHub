@@ -99,23 +99,29 @@ const MyProperty = () => {
         properties.map((property) => {
           return (
             <div key={property.id} className="card d-flex flex-row mx-5 my-4">
-              <img
-                src="property.jpg"
-                alt="property pic"
-                className="img-fluid property-img px-1 py-1 "
-              />
-              <div className="card-body text-center">
-                <h5 className="card-title   mt-2">
-                  {property.type.charAt(0).toUpperCase() +
-                    property.type.slice(1)}
-                  :
-                  <span className="text-danger ms-2">
-                    ${property.rent} per week
-                  </span>
-                </h5>
+              <Link to={`/property/${property.id}`}>
+                {" "}
+                <img
+                  src="/property.jpg"
+                  alt="property pic"
+                  className="img-fluid property-img px-1 py-1 "
+                />
+              </Link>
 
-                <div className="card-text mt-4 mb-2">
+              <div className="card-body text-center">
+                <Link
+                  to={`/property/${property.id}`}
+                  className="card-title  mx-2"
+                >
                   {property.address}, {property.postcode}
+                </Link>
+                <div className="card-text mb-2">
+                  Type: <span className="text-capitalize">{property.type}</span>
+                </div>
+
+                <div className="card-text mb-2">
+                  Rent: <span className="text-danger">${property.rent}</span>{" "}
+                  per week
                 </div>
                 <div className="card-text mb-2 ">
                   Available Date: {property.availability.slice(0, 10)}
