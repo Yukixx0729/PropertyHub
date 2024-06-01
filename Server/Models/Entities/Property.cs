@@ -11,6 +11,8 @@ namespace Server.Models.Entities
 
         public required string Postcode { get; set; }
 
+        public required string Type { get; set; }
+
         public required int Rent { get; set; }
 
         public required int Bedroom { get; set; }

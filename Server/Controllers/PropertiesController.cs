@@ -45,7 +45,7 @@ namespace Server.Controllers
                 .ToListAsync();
             if (properties == null || properties.Count == 0)
             {
-                return NotFound();
+                return Ok(Array.Empty<Property>());
             }
 
             return properties;
@@ -76,10 +76,11 @@ namespace Server.Controllers
                 IsPetAllowed = property.IsPetAllowed,
                 Wardrobes = property.Wardrobes,
                 Summary = property.Summary,
-
+                Type = property.Type,
                 LandlordId = landlord.Id,
                 ApplicationUser = landlord,
-                Bathroom = property.Bathroom
+                Bathroom = property.Bathroom,
+                CreatedAt = property.CreatedAt
 
             };
 
@@ -129,7 +130,8 @@ namespace Server.Controllers
                     LandlordId = landlord.Id,
                     ApplicationUser = landlord,
                     Bathroom = property.Bathroom,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now,
+                    Type = property.Type
 
                 };
                 _context.Properties.Add(newproperty);

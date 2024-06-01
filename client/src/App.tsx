@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import MySaved from "./components/Saved/MySaved";
 import MyProperty from "./components/Property/MyProperty";
 import AddProperty from "./components/Property/AddProperty";
+import EditProperty from "./components/Property/EditProperty";
 
 function App() {
   const location = useLocation();
@@ -33,7 +34,7 @@ function App() {
         <Route path="/mysaved" element={<MySaved />} />
         <Route path="/myproperty" element={<MyProperty />} />
         <Route path="/addproperty" element={<AddProperty />} />
-        <Route path="/editproperty/:propertyId" element={<AddProperty />} />
+        <Route path="/editproperty/:propertyId" element={<EditProperty />} />
       </Routes>
     </>
   );

@@ -164,6 +164,7 @@ namespace Server.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Postcode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rent = table.Column<int>(type: "int", nullable: false),
                     Bedroom = table.Column<int>(type: "int", nullable: false),
                     Bathroom = table.Column<int>(type: "int", nullable: false),

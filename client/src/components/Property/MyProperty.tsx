@@ -19,6 +19,7 @@ export type Property = {
   applicationUser: any;
   wardrobes: boolean;
   landlordId: string;
+  type: string;
 };
 
 type Properties = Property[];
@@ -62,6 +63,7 @@ const MyProperty = () => {
       if (id) {
         const res = await fetch(`http://localhost:5031/landlord/${id}`);
         const data = await res.json();
+
         setProperties(data);
       }
     } catch (error) {
@@ -87,7 +89,11 @@ const MyProperty = () => {
         </span>
       </div>
       {isLoading && <p>...loading</p>}
-
+      {properties && properties.length === 0 && (
+        <p className="mx-3 my-3 text-danger">
+          You don't have any property yet.
+        </p>
+      )}
       {properties &&
         properties.length > 0 &&
         properties.map((property) => {
@@ -96,11 +102,16 @@ const MyProperty = () => {
               <img
                 src="property.jpg"
                 alt="property pic"
-                className="img-fluid property-img"
+                className="img-fluid property-img px-1 py-1 "
               />
               <div className="card-body text-center">
-                <h5 className="card-title  text-danger mt-2">
-                  ${property.rent} per week
+                <h5 className="card-title   mt-2">
+                  {property.type.charAt(0).toUpperCase() +
+                    property.type.slice(1)}
+                  :
+                  <span className="text-danger ms-2">
+                    ${property.rent} per week
+                  </span>
                 </h5>
 
                 <div className="card-text mt-4 mb-2">

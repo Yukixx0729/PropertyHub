@@ -12,7 +12,7 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240523123529_InitialCreate")]
+    [Migration("20240601053419_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -306,6 +306,10 @@ namespace Server.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Wardrobes")
                         .HasColumnType("bit");
