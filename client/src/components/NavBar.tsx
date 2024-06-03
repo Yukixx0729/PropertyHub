@@ -4,27 +4,31 @@ import LogoutLink from "./LogoutLink";
 const RoleLink = ({ role }: { role: string }) => {
   const roleMap = {
     tenant: {
-      link: "/mysaved",
-      text: "My Saved",
+      link: ["/mysaved"],
+      text: ["My Saved"],
     },
     landlord: {
-      link: "/myproperty",
-      text: "My Property",
+      link: ["/myproperty", "/mysaved"],
+      text: ["My Property", "My Saved"],
     },
   } as Record<string, any>;
 
   if (!role || !roleMap[role]) return;
 
   return (
-    <a className="ps-3 p-2 " href={roleMap[role].link}>
-      <h3 className="mb-0">{roleMap[role].text}</h3>
-    </a>
+    <>
+      {roleMap[role].link.map((link: string, index: number) => (
+        <a key={index} className="ps-3 p-2" href={link}>
+          <h3 className="mb-0">{roleMap[role].text[index]}</h3>
+        </a>
+      ))}
+    </>
   );
 };
 
 const NavBar = () => {
   const user = useUser();
-  const { email, userRole, id } = user.details ?? {};
+  const { email, userRole } = user.details ?? {};
 
   if (!user) {
     console.log("No user");

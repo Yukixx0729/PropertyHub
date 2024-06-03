@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Property } from "./MyProperty";
+import { useUser } from "../AuthorizeView";
 
 const PropertyDetails = () => {
+  const user = useUser();
   const { propertyId } = useParams();
   const [property, setProperty] = useState<Property | null>(null);
   const propertyInfo = async (id: string) => {
@@ -10,6 +12,7 @@ const PropertyDetails = () => {
       if (id) {
         const res = await fetch(`http://localhost:5031/api/Properties/${id}`);
         const data = await res.json();
+
         setProperty(data);
       }
     } catch (error) {
@@ -30,15 +33,17 @@ const PropertyDetails = () => {
             <img
               src="/property.jpg"
               alt="property pic"
-              className="card-img-top img-fluid"
+              className="card-img-top img-fluid py-1"
             />
           </div>
-          <div className=" mt-3 fs-5 px-3">
-            <p className="fw-bolder fs-4 ">${property.rent} per week</p>
+          <div className=" mt-3  px-3">
+            <h5 className="fw-bold">Property information</h5>
+            <p>Rent: ${property.rent} per week</p>
             <p>
-              {property.address},{property.postcode}
+              Address: {property.address}, {property.postcode}
             </p>
             <p>
+              <span className="text-capitalize">{property.type}: </span>
               {property.bedroom} bedroom(s), {property.bathroom} bathroom(s),{" "}
               {property.carSpot} carspot(s)
             </p>
@@ -74,10 +79,17 @@ const PropertyDetails = () => {
                 </li>
               </ul>
             </div>
-            <div className="d-flex flex-column gap-3 py-4 px-5">
-              <button className="btn btn-primary">Email Landlord</button>
-              <button className="btn btn-primary">⭐️ Saved this</button>
-            </div>
+            {user.details.id !== property.landlordId && (
+              <div className="d-flex flex-column gap-3 py-4 px-5">
+                <a
+                  href={`mailto:${property.landlordUsername}`}
+                  className="btn btn-primary"
+                >
+                  Email Landlord
+                </a>
+                <button className="btn btn-primary">⭐️ Saved this</button>
+              </div>
+            )}
           </div>
           <div className="px-3 mt-3">
             <h5 className="fw-bold">Some words from the landlord...</h5>

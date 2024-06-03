@@ -20,6 +20,7 @@ export type Property = {
   wardrobes: boolean;
   landlordId: string;
   type: string;
+  landlordUsername: string;
 };
 
 type Properties = Property[];

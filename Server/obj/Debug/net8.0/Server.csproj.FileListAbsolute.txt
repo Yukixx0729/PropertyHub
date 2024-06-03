@@ -259,3 +259,8 @@
 /Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/obj/Debug/net8.0/Server.pdb
 /Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/obj/Debug/net8.0/Server.genruntimeconfig.cache
 /Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/obj/Debug/net8.0/ref/Server.dll
+/Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/bin/Debug/net8.0/Microsoft.AspNetCore.OData.dll
+/Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/bin/Debug/net8.0/Microsoft.OData.Core.dll
+/Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/bin/Debug/net8.0/Microsoft.OData.Edm.dll
+/Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/bin/Debug/net8.0/Microsoft.OData.ModelBuilder.dll
+/Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/bin/Debug/net8.0/Microsoft.Spatial.dll

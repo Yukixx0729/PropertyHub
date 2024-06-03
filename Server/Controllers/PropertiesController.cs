@@ -26,16 +26,40 @@ namespace Server.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Property>> GetProperty(Guid id)
+        public async Task<ActionResult<PropertyDto>> GetProperty(Guid id)
         {
-            var @property = await _context.Properties.FindAsync(id);
+            var property = await _context.Properties
+        .Include(p => p.ApplicationUser)
+        .FirstOrDefaultAsync(p => p.Id == id);
 
-            if (@property == null)
+            if (property == null || property.ApplicationUser == null)
             {
                 return NotFound();
             }
 
-            return @property;
+            var propertyDto = new PropertyDto
+            {
+                Id = property.Id,
+                Address = property.Address,
+                Postcode = property.Postcode,
+                Rent = property.Rent,
+                Bedroom = property.Bedroom,
+                Bathroom = property.Bathroom,
+                Type = property.Type,
+                CarSpot = property.CarSpot,
+                Availability = property.Availability,
+                IsVacant = property.IsVacant,
+                Heater = property.Heater,
+                Cooler = property.Cooler,
+                IsPetAllowed = property.IsPetAllowed,
+                Wardrobes = property.Wardrobes,
+                Summary = property.Summary,
+                CreatedAt = property.CreatedAt,
+                LandlordId = property.LandlordId,
+                LandlordUsername = property.ApplicationUser?.UserName
+            };
+
+            return Ok(propertyDto); ;
         }
 
         [HttpGet("/landlord/{landlordId}")]
