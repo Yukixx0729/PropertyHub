@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using Server.Models.Entities;
@@ -22,6 +23,74 @@ namespace Server.Controllers
         public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
         {
             return await _context.Properties.ToListAsync();
+        }
+
+        [HttpGet("filter")]
+        [EnableQuery]
+        public IQueryable<NewProperty> GetPropertiesByFilter(ODataQueryOptions<Property> options, [FromQuery] PropertyFilter filter)
+        {
+            var query = _context.Properties.AsQueryable();
+            //apply filters
+            if (!string.IsNullOrEmpty(filter.Postcode))
+            {
+                query = query.Where(p => p.Postcode.Contains(filter.Postcode));
+            }
+
+            if (filter.IsPetAllowed.HasValue)
+            {
+                query = query.Where(p => p.IsPetAllowed == filter.IsPetAllowed.Value);
+            }
+
+            if (filter.MinRent.HasValue)
+            {
+                query = query.Where(p => p.Rent >= filter.MinRent.Value);
+            }
+
+            if (filter.MaxRent.HasValue)
+            {
+                query = query.Where(p => p.Rent <= filter.MaxRent.Value);
+            }
+            if (filter.MinBedroom.HasValue)
+            {
+                query = query.Where(p => p.Bedroom >= filter.MinBedroom.Value);
+            }
+            if (filter.MaxBedroom.HasValue)
+            {
+                query = query.Where(p => p.Bedroom <= filter.MaxBedroom.Value);
+            }
+            if (filter.Carspot.HasValue)
+            {
+                query = query.Where(p => p.CarSpot >= filter.Carspot.Value);
+            }
+            query = query.Where(p => p.IsVacant == true);
+
+            var filteredQuery = options.ApplyTo(query) as IQueryable<Property>;
+            if (filteredQuery is not null)
+            {
+                var resultQuery = filteredQuery.Select(p => new NewProperty
+                {
+                    Id = p.Id,
+                    Address = p.Address,
+                    Postcode = p.Postcode,
+                    Rent = p.Rent,
+                    Bedroom = p.Bedroom,
+                    CarSpot = p.CarSpot,
+                    Availability = p.Availability,
+                    IsVacant = p.IsVacant,
+                    Heater = p.Heater,
+                    Cooler = p.Cooler,
+                    IsPetAllowed = p.IsPetAllowed,
+                    Wardrobes = p.Wardrobes,
+                    Summary = p.Summary,
+                    Bathroom = p.Bathroom,
+                    CreatedAt = p.CreatedAt,
+                    LandlordId = p.LandlordId,
+                    Type = p.Type
+                });
+
+                return resultQuery;
+            }
+            return Enumerable.Empty<NewProperty>().AsQueryable();
         }
 
 
@@ -62,7 +131,7 @@ namespace Server.Controllers
             return Ok(propertyDto); ;
         }
 
-        [HttpGet("/landlord/{landlordId}")]
+        [HttpGet("landlord/{landlordId}")]
         public async Task<ActionResult<IEnumerable<Property>>> GetPropertyByLandlord(string landlordId)
         {
             var properties = await _context.Properties.Where(p => p.LandlordId == landlordId)

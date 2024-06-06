@@ -22,6 +22,7 @@ export const emptyProperty = {
   landlordId: "",
   applicationUser: null,
   type: "aparment",
+  landlordUsername: "",
 };
 
 const AddProperty = () => {

@@ -62,7 +62,9 @@ const MyProperty = () => {
     setIsLoading(true);
     try {
       if (id) {
-        const res = await fetch(`http://localhost:5031/landlord/${id}`);
+        const res = await fetch(
+          `http://localhost:5031/api/properties/landlord/${id}`
+        );
         const data = await res.json();
 
         setProperties(data);
