@@ -42,3 +42,13 @@ h2 {
   max-width: 400px;
   height: auto;
 }
+
+.result-container {
+  max-width: 650px;
+  height: auto;
+}
+
+.result-img {
+  max-width: 650px;
+  height: auto;
+}

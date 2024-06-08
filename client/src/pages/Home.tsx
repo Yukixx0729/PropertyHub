@@ -12,16 +12,17 @@ export type FilterInfo = {
   carspot: number | null;
 };
 
+export const filterDetails = {
+  minRent: null,
+  maxRent: null,
+  minBedroom: null,
+  maxBedroom: null,
+  isPetAllowed: null,
+  carspot: null,
+};
+
 const Home = () => {
   const navigate = useNavigate();
-  const filterDetails = {
-    minRent: null,
-    maxRent: null,
-    minBedroom: null,
-    maxBedroom: null,
-    isPetAllowed: null,
-    carspot: null,
-  };
 
   const [filterInfo, setFilterInfo] = useState<FilterInfo>(filterDetails);
   const [postcode, setPostcode] = useState("");
@@ -75,7 +76,7 @@ const Home = () => {
   return (
     <>
       <div className="home d-flex justify-content-center align-items-center">
-        <div className="px-4 py-3 bg-white rounded">
+        <div className="px-4 py-3 bg-white rounded shadow">
           {" "}
           <form
             className="d-flex justify-content-around"

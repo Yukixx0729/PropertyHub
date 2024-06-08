@@ -101,7 +101,10 @@ const MyProperty = () => {
         properties.length > 0 &&
         properties.map((property) => {
           return (
-            <div key={property.id} className="card d-flex flex-row mx-5 my-4">
+            <div
+              key={property.id}
+              className="card d-flex flex-row mx-5 my-4 shadow"
+            >
               <Link to={`/property/${property.id}`}>
                 {" "}
                 <img
