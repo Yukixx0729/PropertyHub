@@ -23,7 +23,7 @@ export type Property = {
   landlordUsername: string;
 };
 
-type Properties = Property[];
+export type Properties = Property[];
 
 const MyProperty = () => {
   const user = useUser();

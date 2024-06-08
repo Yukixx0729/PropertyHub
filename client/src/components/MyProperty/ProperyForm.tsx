@@ -152,7 +152,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
         <label className="form-label">Built-in wardrobe:</label>
         <select
           className="form-select"
-          name="wardrobe"
+          name="wardrobes"
           value={newProperty.wardrobes.toString()}
           onChange={handleChange}
         >

@@ -1,4 +1,4 @@
-import { FilterInfo } from "../pages/Home";
+import { FilterInfo } from "../../pages/Home";
 
 type FilterProps = {
   handleChange: (
@@ -82,6 +82,7 @@ const FilterPopup: React.FC<FilterProps> = ({
                   }
                   onChange={handleChange}
                 >
+                  <option value=""> - </option>
                   <option value="true">True</option>
                   <option value="false">False</option>
                 </select>
@@ -110,6 +111,7 @@ const FilterPopup: React.FC<FilterProps> = ({
               type="button"
               className="btn btn-primary"
               onClick={handleConfirm}
+              data-bs-dismiss="modal"
             >
               Confirm
             </button>

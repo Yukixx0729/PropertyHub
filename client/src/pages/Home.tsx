@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUser } from "../components/AuthorizeView";
-import FilterPopup from "../components/FilterPopup";
+import FilterPopup from "../components/Property/FilterPopup";
+import { useNavigate } from "react-router-dom";
 
 export type FilterInfo = {
   minRent: number | null;
@@ -12,6 +13,7 @@ export type FilterInfo = {
 };
 
 const Home = () => {
+  const navigate = useNavigate();
   const filterDetails = {
     minRent: null,
     maxRent: null,
@@ -39,7 +41,9 @@ const Home = () => {
       ...prevFilter,
       [name]:
         name === "isPetAllowed"
-          ? value === "true"
+          ? value === ""
+            ? null
+            : value === "true"
           : value === ""
           ? null
           : value,
@@ -49,7 +53,7 @@ const Home = () => {
   const handleConfirm = () => {
     const activeFilters = Object.entries(filterInfo).reduce(
       (acc, [key, value]) => {
-        if (value !== null) {
+        if (value !== null || value === "") {
           (acc as any)[key] = value;
         }
         return acc;
@@ -58,7 +62,14 @@ const Home = () => {
     );
 
     const queryString = new URLSearchParams(activeFilters as any).toString();
+
     setQuery(queryString);
+  };
+
+  const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    navigate(`/search-results?postcode=${postcode}&${query}`);
   };
 
   return (
@@ -66,7 +77,10 @@ const Home = () => {
       <div className="home d-flex justify-content-center align-items-center">
         <div className="px-4 py-3 bg-white rounded">
           {" "}
-          <form className="d-flex justify-content-around">
+          <form
+            className="d-flex justify-content-around"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <input
               placeholder="Key in the postcode.."
               className="form-control me-2"
@@ -82,7 +96,9 @@ const Home = () => {
             >
               Filters
             </button>
-            <button className="btn btn-danger">Search</button>
+            <button className="btn btn-danger" onClick={handleSearch}>
+              Search
+            </button>
           </form>
         </div>
       </div>

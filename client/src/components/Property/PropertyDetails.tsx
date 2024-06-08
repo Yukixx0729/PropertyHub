@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Property } from "./MyProperty";
+import { Property } from "../MyProperty/MyProperty";
 import { useUser } from "../AuthorizeView";
 
 const PropertyDetails = () => {
