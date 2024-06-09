@@ -76,7 +76,8 @@ const FilterPopup: React.FC<FilterProps> = ({
                   className="form-select"
                   name="isPetAllowed"
                   value={
-                    filterInfo.isPetAllowed !== null
+                    filterInfo.isPetAllowed !== null &&
+                    filterInfo.isPetAllowed !== undefined
                       ? filterInfo.isPetAllowed.toString()
                       : ""
                   }

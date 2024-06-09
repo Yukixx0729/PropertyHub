@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Properties, Property } from "../MyProperty/MyProperty";
 import FilterPopup from "./FilterPopup";
 import { filterDetails } from "../../pages/Home";
 
 const PropertyList = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const searchParams = {
     postcode: queryParams.get("postcode"),
@@ -20,8 +21,40 @@ const PropertyList = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [results, setResults] = useState<Properties | null>(null);
   const [updatedFilter, setUpdatedFilter] = useState(filterDetails);
-  const handleChange = () => {};
-  const handleConfirm = () => {};
+  const [updatedPostcode, setUpdatedPostcode] = useState<string | null>(
+    searchParams.postcode
+  );
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setUpdatedFilter((prevFilter) => ({
+      ...prevFilter,
+      [name]:
+        name === "isPetAllowed"
+          ? value === ""
+            ? null
+            : value === "true"
+          : value === ""
+          ? null
+          : value,
+    }));
+    console.log(updatedFilter);
+  };
+  const handleConfirm = () => {
+    try {
+      if (updatedPostcode) {
+        filterOutNullParams(updatedFilter);
+        const queryString = new URLSearchParams(
+          updatedFilter as any
+        ).toString();
+        navigate(`/search-results?postcode=${updatedPostcode}&${queryString}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const filterOutNullParams = (obj: any) => {
     return Object.keys(obj).forEach((key) => {
@@ -48,7 +81,6 @@ const PropertyList = () => {
         );
         const data = await res.json();
         setResults(data);
-        setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -57,7 +89,8 @@ const PropertyList = () => {
 
   useEffect(() => {
     fetchResults();
-  }, []);
+    setLoading(false);
+  }, [results]);
 
   return (
     <div className="container d-flex flex-col">
@@ -105,9 +138,15 @@ const PropertyList = () => {
       <div className="card mx-5 my-4 align-self-start d-flex flex-fill p-2 search-range shadow">
         <div className="card-body">
           <h3 className="card-title fw-bold">Search range:</h3>
-          <p className="card-text mx-1 my-2 fw-bold">
-            Postcode: {searchParams.postcode}
-          </p>
+          <label className="form-label">Postcode: </label>
+          <input
+            type="text"
+            className=" mx-1 my-2 form-control form-control-sm"
+            value={updatedPostcode || ""}
+            onChange={(e) => setUpdatedPostcode(e.target.value)}
+            name="postcode"
+            required
+          />
           {searchParams.minRent ? (
             <p className="card-text mx-1 my-2">
               Min Rent: {searchParams.minRent}
