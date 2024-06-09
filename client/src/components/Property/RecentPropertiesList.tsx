@@ -85,6 +85,7 @@ const RecentPropertiesList = () => {
       />
       <div className="card mx-5 my-4 align-self-start d-flex flex-fill p-2 search-range shadow">
         <div className="card-body">
+          <h3 className="card-title fw-bold">Search range:</h3>
           <label className="form-label">Postcode: </label>
           <input
             type="text"
