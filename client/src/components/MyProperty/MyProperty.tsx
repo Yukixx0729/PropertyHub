@@ -28,7 +28,7 @@ export type Properties = Property[];
 const MyProperty = () => {
   const user = useUser();
   const { id } = user.details ?? {};
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [properties, setProperties] = useState<Properties | null>(null);
 
   const onClickDelete = async (id: string) => {
@@ -59,7 +59,7 @@ const MyProperty = () => {
   };
 
   const fetchProperties = async () => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       if (id) {
         const res = await fetch(
@@ -72,13 +72,14 @@ const MyProperty = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchProperties();
   }, [id]);
+  if (loading) return <p className="mt-3 text-danger mx-3 my-3">...Loading</p>;
 
   return (
     <div>
@@ -91,8 +92,8 @@ const MyProperty = () => {
           </Link>
         </span>
       </div>
-      {isLoading && <p>...loading</p>}
-      {properties && properties.length === 0 && (
+
+      {properties?.length === 0 && (
         <p className="mx-3 my-3 text-danger">
           You don't have any property yet.
         </p>
@@ -114,7 +115,7 @@ const MyProperty = () => {
                 />
               </Link>
 
-              <div className="card-body text-center">
+              <div className="card-body d-flex align-items-center flex-column justify-content-center">
                 <Link
                   to={`/property/${property.id}`}
                   className="card-title  mx-2"

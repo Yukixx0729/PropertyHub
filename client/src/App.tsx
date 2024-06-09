@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar";
 import SignUp from "./pages/SignUp";
 import { useUser } from "./components/AuthorizeView";
 import { useEffect } from "react";
-import MySaved from "./components/Saved/MySaved";
+import MySavedList from "./components/Saved/MySavedList";
 import MyProperty from "./components/MyProperty/MyProperty";
 import AddProperty from "./components/MyProperty/AddProperty";
 import EditProperty from "./components/MyProperty/EditProperty";
@@ -34,7 +34,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/log-in" element={<Login />} />
         <Route path="/" element={<Home />} />
-        <Route path="/mysaved" element={<MySaved />} />
+        <Route path="/mysaved" element={<MySavedList />} />
         <Route path="/myproperty" element={<MyProperty />} />
         <Route path="/addproperty" element={<AddProperty />} />
         <Route path="/editproperty/:propertyId" element={<EditProperty />} />

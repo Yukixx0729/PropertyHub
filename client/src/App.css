@@ -80,3 +80,7 @@ h2 {
   text-decoration: underline;
   font-weight: bold;
 }
+
+.inactive {
+  background-color: #e0e5e6;
+}

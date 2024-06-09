@@ -108,7 +108,7 @@ const PropertyList = () => {
   }, [results]);
 
   return (
-    <div className="container d-flex flex-col justify-content-between">
+    <div className="container d-flex flex-column justify-content-between">
       <ListRenderTemplate
         loading={loading}
         results={results}

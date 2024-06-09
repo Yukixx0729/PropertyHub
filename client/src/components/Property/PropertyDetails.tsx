@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Property } from "../MyProperty/MyProperty";
 import { useUser } from "../AuthorizeView";
 
 const PropertyDetails = () => {
   const user = useUser();
+  const navigate = useNavigate();
   const { propertyId } = useParams();
   const [property, setProperty] = useState<Property | null>(null);
   const propertyInfo = async (id: string) => {
@@ -23,6 +24,8 @@ const PropertyDetails = () => {
   useEffect(() => {
     propertyInfo(`${propertyId}`);
   }, []);
+
+  const handleClickSavedBtn = async (id: string) => {};
 
   return (
     <div className="container-md d-flex justify-content-center">
@@ -79,7 +82,7 @@ const PropertyDetails = () => {
                 </li>
               </ul>
             </div>
-            {user.details.id !== property.landlordId && (
+            {user.details.id && user.details.id !== property.landlordId ? (
               <div className="d-flex flex-column gap-3 py-4 px-5">
                 <a
                   href={`mailto:${property.landlordUsername}`}
@@ -87,7 +90,27 @@ const PropertyDetails = () => {
                 >
                   Email Landlord
                 </a>
-                <button className="btn btn-primary">⭐️ Saved this</button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleClickSavedBtn(property.id)}
+                >
+                  ⭐️ Saved this
+                </button>
+              </div>
+            ) : (
+              <div className="d-flex flex-column gap-3 py-4 px-5">
+                <button
+                  onClick={() => navigate("/log-in")}
+                  className="btn btn-primary"
+                >
+                  Email Landlord
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => navigate("/log-in")}
+                >
+                  ⭐️ Saved this
+                </button>
               </div>
             )}
           </div>
