@@ -22,7 +22,9 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
         {
-            return await _context.Properties.ToListAsync();
+            return await _context.Properties
+                         .OrderByDescending(p => p.CreatedAt)
+                         .ToListAsync();
         }
 
         [HttpGet("filter")]

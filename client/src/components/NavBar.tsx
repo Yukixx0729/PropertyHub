@@ -4,12 +4,12 @@ import LogoutLink from "./LogoutLink";
 const RoleLink = ({ role }: { role: string }) => {
   const roleMap = {
     tenant: {
-      link: ["/mysaved"],
-      text: ["My Saved"],
+      link: ["/mysaved", "/recent"],
+      text: ["My Saved", "Latest Properties"],
     },
     landlord: {
-      link: ["/myproperty", "/mysaved"],
-      text: ["My Property", "My Saved"],
+      link: ["/myproperty", "/mysaved", "/recent"],
+      text: ["My Properties", "My Saved", "Latest Properties"],
     },
   } as Record<string, any>;
 

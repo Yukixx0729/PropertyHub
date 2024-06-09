@@ -12,6 +12,7 @@ import AddProperty from "./components/MyProperty/AddProperty";
 import EditProperty from "./components/MyProperty/EditProperty";
 import PropertyDetails from "./components/Property/PropertyDetails";
 import PropertyList from "./components/Property/PropertyList";
+import RecentPropertiesList from "./components/Property/RecentPropertiesList";
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/editproperty/:propertyId" element={<EditProperty />} />
         <Route path="/property/:propertyId" element={<PropertyDetails />} />
         <Route path="/search-results" element={<PropertyList />} />
+        <Route path="/recent" element={<RecentPropertiesList />} />
       </Routes>
     </>
   );

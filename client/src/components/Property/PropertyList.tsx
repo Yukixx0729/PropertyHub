@@ -1,8 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Properties, Property } from "../MyProperty/MyProperty";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Properties } from "../MyProperty/MyProperty";
 import FilterPopup from "./FilterPopup";
 import { filterDetails } from "../../pages/Home";
+
+import ListRenderTemplate from "./ListRenderTemplate";
+
+export const filterOutNullParams = (obj: any) => {
+  return Object.keys(obj).forEach((key) => {
+    if (obj[key] === null) {
+      delete obj[key];
+    }
+  });
+};
 
 const PropertyList = () => {
   const location = useLocation();
@@ -25,6 +35,19 @@ const PropertyList = () => {
     searchParams.postcode
   );
 
+  //paginate
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPropertiesData =
+    results && results.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageClick = (selectedPage: number) => {
+    setCurrentPage(selectedPage);
+    window.scrollTo(0, 0);
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -40,8 +63,8 @@ const PropertyList = () => {
           ? null
           : value,
     }));
-    console.log(updatedFilter);
   };
+
   const handleConfirm = () => {
     try {
       if (updatedPostcode) {
@@ -54,14 +77,6 @@ const PropertyList = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const filterOutNullParams = (obj: any) => {
-    return Object.keys(obj).forEach((key) => {
-      if (obj[key] === null) {
-        delete obj[key];
-      }
-    });
   };
 
   const fetchResults = async () => {
@@ -93,48 +108,14 @@ const PropertyList = () => {
   }, [results]);
 
   return (
-    <div className="container d-flex flex-col">
-      {loading && <p className="text-danger mt-3">...loading</p>}
-      {results && results.length === 0 && (
-        <p className="text-danger mt-3">No result found.</p>
-      )}
-      <div>
-        {results &&
-          results.length > 0 &&
-          results.map((p: Property) => {
-            return (
-              <div
-                className="card mx-5 my-4 result-container shadow"
-                key={p.id}
-              >
-                <Link to={`/property/${p.id}`}>
-                  <img
-                    src="/property.jpg"
-                    alt="property pic"
-                    className="img-fluid card-img-top p-2 result-img"
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title fw-bold">${p.rent} per week</h5>
-                  <p className="card-text my-1">
-                    {p.address} ,{p.postcode}
-                  </p>
-                  <p className="card-text my-1">
-                    {p.bedroom} bedroom(s), {p.bathroom} bathroom(s),{" "}
-                    {p.carSpot} carspot(s)
-                  </p>
-                  <p className="card-text">
-                    {" "}
-                    Available Date:{" "}
-                    <span className="text-danger">
-                      {p.availability.slice(0, 10)}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-      </div>
+    <div className="container d-flex flex-col justify-content-between">
+      <ListRenderTemplate
+        loading={loading}
+        results={results}
+        currentPropertiesData={currentPropertiesData}
+        handlePageClick={handlePageClick}
+        itemsPerPage={itemsPerPage}
+      />
       <div className="card mx-5 my-4 align-self-start d-flex flex-fill p-2 search-range shadow">
         <div className="card-body">
           <h3 className="card-title fw-bold">Search range:</h3>

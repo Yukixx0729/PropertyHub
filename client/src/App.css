@@ -52,3 +52,31 @@ h2 {
   max-width: 650px;
   height: auto;
 }
+
+.search-range {
+  max-width: 300px;
+}
+
+.pagination {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  list-style-type: none;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+}
+
+.pagination li {
+  color: black;
+  padding: 5px;
+  margin: 1rem;
+}
+
+.active {
+  font-style: italic;
+  text-decoration: underline;
+  font-weight: bold;
+}
