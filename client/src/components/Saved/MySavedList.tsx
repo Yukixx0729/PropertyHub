@@ -3,7 +3,7 @@ import { Property } from "../MyProperty/MyProperty";
 import { useUser } from "../AuthorizeView";
 import { Link } from "react-router-dom";
 
-type MySaved = {
+export type MySaved = {
   id: string;
   renterId: string;
   propertyId: string;
@@ -71,13 +71,16 @@ const MySavedList = () => {
         mySavedList.map((m: MySaved) => {
           if (m.property.isVacant) {
             return (
-              <div className="card d-flex flex-row mx-5 my-4 shadow" key={m.id}>
+              <div
+                className="card d-flex flex-row mx-5 my-4 shadow my-saved"
+                key={m.id}
+              >
                 <Link to={`/property/${m.propertyId}`}>
                   {" "}
                   <img
                     src="/property.jpg"
                     alt="property pic"
-                    className="img-fluid property-img px-1 py-1 "
+                    className="img-fluid property-img px-1 py-1 card-img-top"
                   />
                 </Link>
                 <div className="card-body  d-flex align-items-center flex-column justify-content-center">

@@ -24,6 +24,12 @@ h2 {
   text-decoration: underline;
 }
 
+@media (max-width: 768px) {
+  .alert-success h4 {
+    font-size: 1rem;
+  }
+}
+
 .home {
   background-image: url(home.jpeg);
   background-repeat: no-repeat;
@@ -53,8 +59,16 @@ h2 {
   height: auto;
 }
 
+@media (max-width: 900px) {
+  .result-render {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+}
+
 .search-range {
-  max-width: 300px;
+  max-width: 350px;
 }
 
 .pagination {
@@ -83,4 +97,20 @@ h2 {
 
 .inactive {
   background-color: #e0e5e6;
+}
+
+@media (max-width: 900px) {
+  .my-property {
+    flex-direction: column !important;
+  }
+  .my-property-container {
+    h2,
+    span,
+    button {
+      font-size: 1rem;
+    }
+  }
+  .my-saved {
+    flex-direction: column !important;
+  }
 }

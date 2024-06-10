@@ -2,19 +2,44 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Property } from "../MyProperty/MyProperty";
 import { useUser } from "../AuthorizeView";
+import { MySaved } from "../Saved/MySavedList";
 
 const PropertyDetails = () => {
   const user = useUser();
+  const { id } = user.details ?? {};
   const navigate = useNavigate();
   const { propertyId } = useParams();
   const [property, setProperty] = useState<Property | null>(null);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
   const propertyInfo = async (id: string) => {
     try {
       if (id) {
         const res = await fetch(`http://localhost:5031/api/Properties/${id}`);
         const data = await res.json();
-
         setProperty(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkIfSaved = async (id: string, propertyId: string) => {
+    try {
+      if (id) {
+        const res = await fetch(
+          `http://localhost:5031/api/MySaveds/renter/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const data = await res.json();
+        const saved = data.some((s: MySaved) => s.propertyId === propertyId);
+
+        setIsSaved(saved);
       }
     } catch (error) {
       console.log(error);
@@ -23,13 +48,39 @@ const PropertyDetails = () => {
 
   useEffect(() => {
     propertyInfo(`${propertyId}`);
-  }, []);
+    checkIfSaved(`${id}`, `${propertyId}`);
+  }, [id]);
 
-  const handleClickSavedBtn = async (id: string) => {};
+  const handleClickSavedBtn = async (propertyId: string) => {
+    try {
+      if (propertyId && id) {
+        await fetch(`http://localhost:5031/api/MySaveds`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            renterId: id,
+            propertyId: propertyId,
+          }),
+        });
+        checkIfSaved(`${id}`, `${propertyId}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (!property?.isVacant)
+    return (
+      <p className="mt-3 text-danger mx-3 my-3">
+        Sorry, this property is not vacant or offline.
+      </p>
+    );
 
   return (
     <div className="container-md d-flex justify-content-center">
-      {property && (
+      {property?.isVacant && (
         <div className="card my-3 px-1" style={{ maxWidth: "55rem" }}>
           <div className=" text-center">
             {" "}
@@ -93,8 +144,9 @@ const PropertyDetails = () => {
                 <button
                   className="btn btn-primary"
                   onClick={() => handleClickSavedBtn(property.id)}
+                  disabled={isSaved}
                 >
-                  ⭐️ Saved this
+                  {isSaved ? "⭐️ Saved" : "⭐️ Save this"}
                 </button>
               </div>
             ) : (

@@ -82,8 +82,8 @@ const MyProperty = () => {
   if (loading) return <p className="mt-3 text-danger mx-3 my-3">...Loading</p>;
 
   return (
-    <div>
-      <div className="mx-5 mt-3  d-flex justify-content-center align-items-center">
+    <div className="my-property-container">
+      <div className="mx-5 mt-3  d-flex justify-content-center align-items-center ">
         <h2 className="p-2 me-3">My Property</h2>
         <span className="p-2 ">
           {" "}
@@ -104,14 +104,14 @@ const MyProperty = () => {
           return (
             <div
               key={property.id}
-              className="card d-flex flex-row mx-5 my-4 shadow"
+              className="card d-flex flex-row mx-5 my-4 shadow my-property"
             >
               <Link to={`/property/${property.id}`}>
                 {" "}
                 <img
                   src="/property.jpg"
                   alt="property pic"
-                  className="img-fluid property-img px-1 py-1 "
+                  className="img-fluid property-img px-1 py-1 card-img-top"
                 />
               </Link>
 
