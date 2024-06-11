@@ -45,7 +45,7 @@ h2 {
 /* property css */
 
 .property-img {
-  max-width: 400px;
+  max-width: 450px;
   height: auto;
 }
 
@@ -103,6 +103,11 @@ h2 {
   .my-property {
     flex-direction: column !important;
   }
+  .my-property .card-body {
+    display: flex;
+    justify-content: start !important;
+    align-items: start !important;
+  }
   .my-property-container {
     h2,
     span,
@@ -112,5 +117,10 @@ h2 {
   }
   .my-saved {
     flex-direction: column !important;
+  }
+  .my-saved .card-body {
+    display: flex;
+    justify-content: start !important;
+    align-items: start !important;
   }
 }

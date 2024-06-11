@@ -86,7 +86,7 @@ const MySavedList = () => {
                 <div className="card-body  d-flex align-items-center flex-column justify-content-center">
                   <Link
                     to={`/property/${m.propertyId}`}
-                    className="card-title  mx-2"
+                    className="card-title  mb-2 fw-bold"
                   >
                     {m.property.address}, {m.property.postcode}
                   </Link>
@@ -131,17 +131,17 @@ const MySavedList = () => {
           } else {
             return (
               <div
-                className="card d-flex flex-row mx-5 my-4 shadow inactive"
+                className="card d-flex flex-row mx-5 my-4 shadow inactive my-saved"
                 key={m.id}
               >
                 {" "}
                 <img
                   src="/property.jpg"
                   alt="property pic"
-                  className="img-fluid property-img px-1 py-1 "
+                  className="img-fluid property-img px-1 py-1 card-img-top"
                 />
                 <div className="card-body  d-flex align-items-center flex-column justify-content-center">
-                  <div className="card-title  mx-2">
+                  <div className="card-title mb-2 fw-bold">
                     {m.property.address}, {m.property.postcode}
                   </div>
                   <div className="card-text mb-2">

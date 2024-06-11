@@ -25,3 +25,4 @@
 <img src="./images/list.png" width="1000" />
 <img src="./images/details.png" width="1000" />
 <img src="./images/myproperty.png" width="1000" />
+<img src="./images/mysave.png" width="1000" />

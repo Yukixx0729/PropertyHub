@@ -118,7 +118,7 @@ const MyProperty = () => {
               <div className="card-body d-flex align-items-center flex-column justify-content-center">
                 <Link
                   to={`/property/${property.id}`}
-                  className="card-title  mx-2"
+                  className="card-title  mb-2 fw-bold"
                 >
                   {property.address}, {property.postcode}
                 </Link>
