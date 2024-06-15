@@ -149,7 +149,7 @@ const PropertyDetails = () => {
                   {isSaved ? "⭐️ Saved" : "⭐️ Save this"}
                 </button>
               </div>
-            ) : (
+            ) : property.landlordId !== user.details.id ? (
               <div className="d-flex flex-column gap-3 py-4 px-5">
                 <button
                   onClick={() => navigate("/log-in")}
@@ -164,7 +164,7 @@ const PropertyDetails = () => {
                   ⭐️ Saved this
                 </button>
               </div>
-            )}
+            ) : null}
           </div>
           <div className="px-3 mt-3">
             <h5 className="fw-bold">Some words from the landlord...</h5>

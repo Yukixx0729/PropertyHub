@@ -28,35 +28,37 @@ const ListRenderTemplate: React.FC<ListProps> = ({
           currentPropertiesData.length > 0 &&
           currentPropertiesData.map((p: Property) => {
             return (
-              <div
-                className="card mx-5 my-4 result-container shadow"
-                key={p.id}
-              >
-                <Link to={`/property/${p.id}`}>
-                  <img
-                    src="/property.jpg"
-                    alt="property pic"
-                    className="img-fluid card-img-top p-2 result-img"
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title fw-bold">${p.rent} per week</h5>
-                  <p className="card-text my-1">
-                    {p.address} ,{p.postcode}
-                  </p>
-                  <p className="card-text my-1">
-                    {p.bedroom} bedroom(s), {p.bathroom} bathroom(s),{" "}
-                    {p.carSpot} carspot(s)
-                  </p>
-                  <p className="card-text">
-                    {" "}
-                    Available Date:{" "}
-                    <span className="text-danger">
-                      {p.availability.slice(0, 10)}
-                    </span>
-                  </p>
+              p.isVacant && (
+                <div
+                  className="card mx-5 my-4 result-container shadow"
+                  key={p.id}
+                >
+                  <Link to={`/property/${p.id}`}>
+                    <img
+                      src="/property.jpg"
+                      alt="property pic"
+                      className="img-fluid card-img-top p-2 result-img"
+                    />
+                  </Link>
+                  <div className="card-body">
+                    <h5 className="card-title fw-bold">${p.rent} per week</h5>
+                    <p className="card-text my-1">
+                      {p.address} ,{p.postcode}
+                    </p>
+                    <p className="card-text my-1">
+                      {p.bedroom} bedroom(s), {p.bathroom} bathroom(s),{" "}
+                      {p.carSpot} carspot(s)
+                    </p>
+                    <p className="card-text">
+                      {" "}
+                      Available Date:{" "}
+                      <span className="text-danger">
+                        {p.availability.slice(0, 10)}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )
             );
           })}
         <div>

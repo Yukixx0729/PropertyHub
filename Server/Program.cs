@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using Server.Models.Entities;
-
+using Newtonsoft.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,9 +15,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddAuthorization();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddApiEndpoints();
-builder.Services.AddControllers().AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(100));
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        // Other settings as needed
+    })
+    .AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(100));
 
-
+builder.Services.AddScoped<IpropertyService, PropertyService>();
+builder.Services.AddScoped<ImysavedService, MySavedService>();
 
 builder.Services.AddCors(options =>
        {
@@ -34,10 +41,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
 app.UseCors("AllowOrigin");
+
 app.MapIdentityApi<ApplicationUser>();
 
 app.MapPost("/setrole", async (UserManager<ApplicationUser> userManager, string email, string role, HttpContext context) =>

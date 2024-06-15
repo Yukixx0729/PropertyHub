@@ -14,46 +14,39 @@ namespace Server.Controllers
     [ApiController]
     public class MySavedsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ImysavedService _mysavedService;
 
-        public MySavedsController(ApplicationDbContext context)
+        public MySavedsController(ImysavedService mysavedService)
         {
-            _context = context;
+            _mysavedService = mysavedService;
         }
 
         [HttpGet("renter/{id}")]
         public async Task<ActionResult<IEnumerable<MySaved>>> GetMySaved(string id)
         {
-            var mySaveds = await _context.MySaveds.Where(m => m.RenterId == id).Include(m => m.Property).ToListAsync();
-            if (mySaveds == null || mySaveds.Count == 0)
+            try
             {
-                return Ok(Array.Empty<MySaved>());
+                var mysaveds = await _mysavedService.GetAllMysavedsAsync(id);
+                return Ok(mysaveds);
             }
-            return mySaveds;
+            catch (ArgumentException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<MySaved>> PostMySaved(NewSaved mySaved)
         {
-            var renter = await _context.Users.FirstOrDefaultAsync(u => u.Id == mySaved.RenterId);
-            var property = await _context.Properties.FirstOrDefaultAsync(p => p.Id == mySaved.PropertyId);
-            if (renter != null && property != null)
+            try
             {
-                var newSaved = new MySaved
-                {
-                    Id = mySaved.Id,
-                    RenterId = mySaved.RenterId,
-                    PropertyId = mySaved.PropertyId,
-                    ApplicationUser = renter,
-                    Property = property
-
-
-                };
-                _context.MySaveds.Add(newSaved);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction("GetMySaved", new { id = mySaved.Id }, mySaved);
-            };
-            return NotFound();
+                var newSaved = await _mysavedService.CreateMysavedAsync(mySaved);
+                return Ok(newSaved);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
 
@@ -61,21 +54,13 @@ namespace Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMySaved(Guid id)
         {
-            var mySaved = await _context.MySaveds.FindAsync(id);
-            if (mySaved == null)
+            var success = await _mysavedService.DeleteMysavedAsync(id);
+            if (!success)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            _context.MySaveds.Remove(mySaved);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool MySavedExists(Guid id)
-        {
-            return _context.MySaveds.Any(e => e.Id == id);
-        }
     }
 }

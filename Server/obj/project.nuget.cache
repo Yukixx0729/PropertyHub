@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1SMeYWbmo19wyiDAMdy7LuN+tSyfhD/gud4hNK2zQbgg6kYYxTjJeBpqygIO5JvVpik3Eq1o/tsy8rt/vXt3WQ==",
+  "dgSpecHash": "LHm8b8wkKA/2O+WUGFkyoOLL2WLTUCJOhMhUXC8neC7JVh2n6ZlnythAIiLd8T9o6vc2/i0bDk5XMw5UAUQauQ==",
   "success": true,
   "projectFilePath": "/Users/yuki/sei/ownProject/personal projects/PropertyHub/Server/Server.csproj",
   "expectedPackageFiles": [
@@ -71,6 +71,8 @@
     "/Users/yuki/.nuget/packages/microsoft.aspnetcore.http.extensions/2.2.0/microsoft.aspnetcore.http.extensions.2.2.0.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.aspnetcore.http.features/2.2.0/microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/8.0.4/microsoft.aspnetcore.identity.entityframeworkcore.8.0.4.nupkg.sha512",
+    "/Users/yuki/.nuget/packages/microsoft.aspnetcore.jsonpatch/8.0.6/microsoft.aspnetcore.jsonpatch.8.0.6.nupkg.sha512",
+    "/Users/yuki/.nuget/packages/microsoft.aspnetcore.mvc.newtonsoftjson/8.0.6/microsoft.aspnetcore.mvc.newtonsoftjson.8.0.6.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.aspnetcore.odata/8.2.5/microsoft.aspnetcore.odata.8.2.5.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.aspnetcore.openapi/8.0.3/microsoft.aspnetcore.openapi.8.0.3.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.aspnetcore.razor.language/6.0.24/microsoft.aspnetcore.razor.language.6.0.24.nupkg.sha512",
@@ -89,7 +91,7 @@
     "/Users/yuki/.nuget/packages/microsoft.codeanalysis.razor/6.0.24/microsoft.codeanalysis.razor.6.0.24.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.codeanalysis.scripting.common/4.8.0/microsoft.codeanalysis.scripting.common.4.8.0.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.codeanalysis.workspaces.common/4.8.0/microsoft.codeanalysis.workspaces.common.4.8.0.nupkg.sha512",
-    "/Users/yuki/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
+    "/Users/yuki/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.data.sqlclient/5.1.5/microsoft.data.sqlclient.5.1.5.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.data.sqlclient.sni.runtime/5.1.1/microsoft.data.sqlclient.sni.runtime.5.1.1.nupkg.sha512",
     "/Users/yuki/.nuget/packages/microsoft.diasymreader/2.0.0/microsoft.diasymreader.2.0.0.nupkg.sha512",
@@ -148,6 +150,7 @@
     "/Users/yuki/.nuget/packages/microsoft.win32.systemevents/7.0.0/microsoft.win32.systemevents.7.0.0.nupkg.sha512",
     "/Users/yuki/.nuget/packages/mono.texttemplating/2.3.1/mono.texttemplating.2.3.1.nupkg.sha512",
     "/Users/yuki/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
+    "/Users/yuki/.nuget/packages/newtonsoft.json.bson/1.0.2/newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "/Users/yuki/.nuget/packages/nuget.common/6.9.1/nuget.common.6.9.1.nupkg.sha512",
     "/Users/yuki/.nuget/packages/nuget.configuration/6.9.1/nuget.configuration.6.9.1.nupkg.sha512",
     "/Users/yuki/.nuget/packages/nuget.dependencyresolver.core/6.9.1/nuget.dependencyresolver.core.6.9.1.nupkg.sha512",
