@@ -138,7 +138,7 @@ public class PropertyService : IpropertyService
                .ToListAsync();
         if (properties == null || properties.Count == 0)
         {
-            return [];
+            return Enumerable.Empty<Property>();
         }
 
         return properties;
