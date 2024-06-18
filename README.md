@@ -5,7 +5,7 @@
 ---
 
 - Responsive Web Design
-- Test: Xunit
+- Test: xUnit
 - Back End: C#, ASP .net core, Entityframework core, Sql server, OData, OpenAPI
 - Front End: Typescript, React vite framework, HTML5, SCSS/CSS5, Bootstrap,react-paginate, react router
 
