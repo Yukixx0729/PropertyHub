@@ -146,36 +146,31 @@ public class PropertyService : IpropertyService
 
     public async Task<bool> UpdatePropertyAsync(Guid id, NewProperty property)
     {
+        var existingProperty = await _context.Properties.FindAsync(id);
         var landlord = await _context.Users.FirstOrDefaultAsync(u => u.Id == property.LandlordId);
 
-        if (id != @property.Id || landlord is null)
+        if (existingProperty == null || landlord == null)
         {
             return false;
         }
-        var newproperty = new Property
-        {
-            Id = property.Id,
-            Address = property.Address,
-            Postcode = property.Postcode,
-            Rent = property.Rent,
-            Bedroom = property.Bedroom,
-            CarSpot = property.CarSpot,
-            Availability = property.Availability,
-            IsVacant = property.IsVacant,
-            Heater = property.Heater,
-            Cooler = property.Cooler,
-            IsPetAllowed = property.IsPetAllowed,
-            Wardrobes = property.Wardrobes,
-            Summary = property.Summary,
-            Type = property.Type,
-            LandlordId = landlord.Id,
-            ApplicationUser = landlord,
-            Bathroom = property.Bathroom,
-            CreatedAt = property.CreatedAt
 
-        };
-
-        _context.Entry(newproperty).State = EntityState.Modified;
+        existingProperty.Address = property.Address;
+        existingProperty.Postcode = property.Postcode;
+        existingProperty.Rent = property.Rent;
+        existingProperty.Bedroom = property.Bedroom;
+        existingProperty.CarSpot = property.CarSpot;
+        existingProperty.Availability = property.Availability;
+        existingProperty.IsVacant = property.IsVacant;
+        existingProperty.Heater = property.Heater;
+        existingProperty.Cooler = property.Cooler;
+        existingProperty.IsPetAllowed = property.IsPetAllowed;
+        existingProperty.Wardrobes = property.Wardrobes;
+        existingProperty.Summary = property.Summary;
+        existingProperty.Type = property.Type;
+        existingProperty.LandlordId = landlord.Id;
+        existingProperty.ApplicationUser = landlord;
+        existingProperty.Bathroom = property.Bathroom;
+        existingProperty.CreatedAt = property.CreatedAt;
 
         try
         {
